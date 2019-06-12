@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from 'react-native'
+import {TouchableOpacity, StyleSheet, Text, View, Image} from 'react-native'
 import StaticSafeAreaInsets from 'react-native-static-safe-area-insets'
 
 import FeedScreen from './screens/feed.screen'
@@ -38,8 +38,6 @@ export default class App extends Component {
       this.setState({
         activeScreen: screenName,
         stack: [...stack, screenName]
-      }, () => {
-        console.log(this.state)
       })
     }
   }
@@ -51,8 +49,6 @@ export default class App extends Component {
     this.setState({
       activeScreen: lastComponent,
       stack,
-    }, () => {
-      console.log(this.state)
     })
   }
 
@@ -61,14 +57,24 @@ export default class App extends Component {
     const backButton = () => {
       if(stack.length > 1) {
         return <TouchableOpacity onPress={this.handleBackButtonPress.bind(this)}>
-          <Text>Back</Text>
+        <Image
+          style={styles.icons}
+          source={require('./assets/icons/back.png')}
+        />
         </TouchableOpacity>
       }
     }
     const screenName = screens[activeScreen].name
     return <View style={[styles.headerNavigation, {paddingTop: StaticSafeAreaInsets.safeAreaInsetsTop}]}>
-      {backButton()}
-      <Text>{screenName}</Text>
+      <View style={styles.headerLeft}>
+        {backButton()}
+      </View>
+      <View style={styles.headerBody}>
+        <Text style={styles.headerLabel}>{screenName}</Text>
+      </View>
+      <View  style={styles.headerRight}>
+
+      </View>
     </View>
   }
 
@@ -144,15 +150,38 @@ const styles = StyleSheet.create({
 
   headerNavigation: {
     borderBottomWidth: 1,
-    padding: 20,
-    justifyContent: 'space-around',
-    alignItems: 'center',
     flexDirection: 'row',
     position: 'absolute',
     zIndex: 1,
     width: '100%',
     backgroundColor: '#fff',
     borderColor: '#eaf1f8',
+    // height: 85,
+  },
+  icons: {
+    width: 20,
+    height: 20,
+    marginVertical: 8,
+    marginHorizontal: 10,
+  },
+  headerLeft: {
+    // borderWidth: 1,
+    flex: 0,
+    justifyContent: 'center',
+  },
+  headerBody: {
+    // borderWidth: 1,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  headerRight: {
+    // borderWidth: 1,
+    flex: 0,
+  },
+  headerLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+    paddingVertical: 10,
   }
-
 })
