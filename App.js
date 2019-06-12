@@ -73,7 +73,7 @@ export default class App extends Component {
   }
 
   bottomNav () {
-    return <View style={styles.bottomNavigator}>
+    return <View style={[styles.bottomNavigator, {paddingBottom: StaticSafeAreaInsets.safeAreaInsetsBottom}]}>
       {Object.keys(screens).map(i => {
         const screen = screens[i]
         return <TouchableOpacity 
@@ -92,7 +92,7 @@ export default class App extends Component {
     return <View style={styles.allScreenWrapper}>
       {Object.keys(screens).map(i => {
         const Screen = screens[i]['screen']
-        const zIndex = activeScreen === i ? { zIndex: 1 } : {}
+        const zIndex = activeScreen !== i ? { display: 'none' } : {}
         return <View key={i} style={[styles.singleScreenWrapper, zIndex]}>
           <Screen />
         </View>
@@ -121,8 +121,13 @@ const styles = StyleSheet.create({
   },
   bottomNavigator: {
     borderTopWidth: 1,
+    borderColor: '#eaf1f8',
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
   bottomNavigatorItem: {
     padding: 10
@@ -139,14 +144,15 @@ const styles = StyleSheet.create({
 
   headerNavigation: {
     borderBottomWidth: 1,
-    padding: 10,
+    padding: 20,
     justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row',
     position: 'absolute',
-    zIndex: 100,
+    zIndex: 1,
     width: '100%',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    borderColor: '#eaf1f8',
   }
 
 })
